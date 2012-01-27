@@ -1,13 +1,20 @@
+package com.varokas.tools.photoimporter
+
 import spock.lang.*
 
-class HelloSpock extends Specification {
-  
+class PhotoImporterTest extends Specification {
+  def photoImporter = new PhotoImporter()
 
+  def "Reads input directory from -i parameter"() {
+  	def settings = photoImporter.parseSettingsFromCommandLine(["-i","photos/"]);
+
+  	expect:
+  		settings.inputDirectory == "photos/"
+  }
 }
 
 class Pending extends Specification {
-  def "Reads input directory from -i parameter"() {
-  }
+
   def "Reads output directory from -o parameter"() {
   }
 
