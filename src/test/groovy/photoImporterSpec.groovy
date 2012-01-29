@@ -92,15 +92,15 @@ class FileCopyTest extends  Specification {
     }
 
     def "Creates a year YYYY directory in the destination if we have a photo"() {
-        File file = new File("test/resources/images/${filename}")
+        File file = new File("src/test/resources/images/${filename}")
         File outDir = new File(testDir)
         
         photoImporter.copyFileToOutputDir(file, outDir)
 
-        def f = new File("${testDir}/2011")
+        def f = new File("${testDir}/2012")
         expect:
-            f.exists() == true
-            f.isDirectory() == true
+            f.exists()
+            f.isDirectory()
     }
 }
 
@@ -108,8 +108,16 @@ class Pending extends Specification {
   def "Creates output dir if it does not already exists"() {
   }
 
+  def "Skips if the photo does not contain datetime tag"() {
 
-  def "Creates a day YYYY/MM/DD directory inside year directory for a photo"() {
+  }
+
+  def "Creates a day YYYYMMDD directory inside year directory for a photo"() {
+  }
+
+
+  def "RAW files copied to YYYY/YYYYMMDD directory"() {
+
   }
 
   def "A total number of files found in the input path is displayed"() {

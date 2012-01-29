@@ -17,6 +17,9 @@ dependencies {
     groovy group: 'org.codehaus.groovy', name: 'groovy-all', version: '1.8.5'
     compile 'com.beust:jcommander:1.23'
     compile 'commons-io:commons-io:2.1'
+    compile fileTree(dir: 'lib', include: '*.jar')
+    compile 'org.apache.sanselan:sanselan:0.97-incubator'
+    compile 'joda-time:joda-time:2.0'
     testCompile "org.spockframework:spock-core:0.5-groovy-1.8"
     testCompile "junit:junit:4.8.1"  
 }

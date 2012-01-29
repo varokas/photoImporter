@@ -1,6 +1,12 @@
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.JCommander
 import org.apache.commons.io.FileUtils
+import com.drew.imaging.ImageMetadataReader
+import org.joda.time.DateTime
+import com.drew.metadata.iptc.IptcDirectory
+import com.drew.metadata.Directory
+import com.drew.metadata.Tag
+import com.drew.metadata.exif.ExifSubIFDDirectory
 
 class PhotoImporter {
 	def main(args) {
@@ -15,12 +21,24 @@ class PhotoImporter {
         return settings
 	}
 
-    def getFilesToProcess(inputDirectory) {
+    def getFilesToProcess(String inputDirectory) {
         return FileUtils.listFiles(new File(inputDirectory), ["rw2"] as String[], true)
     }
 
     def copyFileToOutputDir(File file, File directory) {
+        DateTime dt = getDateTimeMetaDataFromFile(file)
+        def year = dt.getYear()
 
+        def dirToCreateString = "${directory}/${year}"
+        new File(dirToCreateString).mkdirs()
+    }
+
+    private DateTime getDateTimeMetaDataFromFile(File file) {
+        def metadata = ImageMetadataReader.readMetadata(file)
+        def directory = metadata.getDirectory(ExifSubIFDDirectory.class)
+        def date = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)
+        
+        return new DateTime(date)
     }
 }
 
