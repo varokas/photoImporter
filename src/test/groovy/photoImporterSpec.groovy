@@ -1,6 +1,6 @@
 import spock.lang.*
 
-class PhotoImporterTest extends Specification {
+class PhotoImporterParametersTest extends Specification {
   def photoImporter = new PhotoImporter()
 
   def "Reads input directory from -i parameter"() {
@@ -19,10 +19,46 @@ class PhotoImporterTest extends Specification {
   }
 }
 
+class PhotoImporterScannerTest extends Specification {
+  private final def testDir = "out/testInput"
+
+  def before() {
+    testDirectory = new File(testDir)
+    testDirectory.mkdir()
+  }
+
+  def after() {
+      testDirectory?.deleteDir();
+  }
+
+  private def withFileInDirectoryAndFilename(dir, fileName) {
+      def wholeDirectory = new File("${testDir}/${dir}")
+      if(!wholeDirectory.exists())
+        wholeDirectory.mkdirs()
+      
+      def file = new File("${testDir}/${dir}/${fileName}")
+      file.createNewFile()
+      
+      return file
+  }
+
+  def "Scans for every rw2 files in the input directory"() {
+    withFileInDirectoryAndFilename("dirA","fileOne.rw2")
+    withFileInDirectoryAndFilename("dirA","fileTwo.rw2")
+
+    when:
+        true == true
+    then:
+        true == true
+  }
+}
+
 class Pending extends Specification {
-
-
   def "Scans for every rw2 files recursively in the input directory"() {
+  }
+
+  def "Ignores other extensions besides rw2"() {
+
   }
 
   def "Creates a year YYYY directory in the destination if we have a photo"() {
