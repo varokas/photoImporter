@@ -50,7 +50,9 @@ class PhotoImporterScannerTest extends Specification {
     def list = photoImporter.getFilesToProcess(testDir)
 
     expect:
-        list.size() == 2
+      list.size() == 2
+      list.contains("${testDir}/dirA/fileOne.rw2")
+      list.contains("${testDir}/dirA/fileTwo.rw2")
   }
 }
 
