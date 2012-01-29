@@ -7,9 +7,12 @@ import com.drew.metadata.iptc.IptcDirectory
 import com.drew.metadata.Directory
 import com.drew.metadata.Tag
 import com.drew.metadata.exif.ExifSubIFDDirectory
+import org.joda.time.format.DateTimeFormat
 
 class PhotoImporter {
-	def main(args) {
+	private static final ymdFormat = DateTimeFormat.forPattern("yyyyMMdd");
+
+    def main(args) {
 		def settings = parseSettingsFromCommandLine(args)
 	    def files = getFilesToProcess(settings.inputDirectory)
         files.each( { f -> copyFileToOutputDir(f, new File(settings.outputDirectory)) })
@@ -28,8 +31,9 @@ class PhotoImporter {
     def copyFileToOutputDir(File file, File directory) {
         DateTime dt = getDateTimeMetaDataFromFile(file)
         def year = dt.getYear()
+        def ymd = ymdFormat.print(dt)
 
-        def dirToCreateString = "${directory}/${year}"
+        def dirToCreateString = "${directory}/${year}/${ymd}"
         new File(dirToCreateString).mkdirs()
     }
 
