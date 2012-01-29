@@ -35,6 +35,9 @@ class PhotoImporter {
 
         def dirToCreateString = "${directory}/${year}/${ymd}"
         new File(dirToCreateString).mkdirs()
+
+        def destinationString = dirToCreateString + "/" + file.getName()
+        FileUtils.copyFile(file, new File(destinationString))
     }
 
     private DateTime getDateTimeMetaDataFromFile(File file) {

@@ -1,4 +1,9 @@
 import spock.lang.*
+import org.apache.commons.io.FileUtils
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.CopyOption
+import java.nio.file.attribute.BasicFileAttributes
 
 class PhotoImporterParametersTest extends Specification {
   def photoImporter = new PhotoImporter()
@@ -81,8 +86,9 @@ class FileCopyTest extends  Specification {
     private final def testDir = "out/testOutput"
     private final def testDirectory = new File(testDir)
     private final def filename = "file-20120128.RW2"
+    private final def filePathStr = "src/test/resources/images/${filename}"
 
-    File file = new File("src/test/resources/images/${filename}")
+    File file = new File(filePathStr)
     File outDir = new File(testDir)
 
     def photoImporter = new PhotoImporter()
@@ -112,19 +118,41 @@ class FileCopyTest extends  Specification {
             f.exists()
             f.isDirectory()
     }
+
+    def "RAW files copied to YYYY/YYYYMMDD directory"() {
+        photoImporter.copyFileToOutputDir(file, outDir)
+
+        def f = new File("${testDir}/2012/20120128/${filename}")
+        expect:
+            f.exists()
+            f.isFile()
+    }
+
+    def "Skips if the photo already exists on destination dir"() {
+        //Needs Java 7 NIO 2 just to be able to get the createdTime !!!
+        def destPathString = "${testDir}/2012/20120128/${filename}"
+
+        def srcPath = Paths.get(filePathStr)
+        def destPath = Paths.get(destPathString)
+        
+        Files.createDirectories(Paths.get("${testDir}/2012/20120128"))
+        Files.copy(srcPath, destPath)
+
+        def attr = Files.readAttributes(destPath, BasicFileAttributes.class)
+        def originalCreationTime = attr.creationTime()
+
+        photoImporter.copyFileToOutputDir(file, outDir)
+
+        def attrAfter = Files.readAttributes(destPath, BasicFileAttributes.class)
+
+        expect:
+            attrAfter.creationTime() == originalCreationTime
+    }
 }
 
 class Pending extends Specification {
-  def "Creates output dir if it does not already exists"() {
-  }
 
-  def "Skips if the photo does not contain datetime tag"() {
 
-  }
-
-  def "RAW files copied to YYYY/YYYYMMDD directory"() {
-
-  }
 
   def "A total number of files found in the input path is displayed"() {
   }
