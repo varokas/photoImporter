@@ -16,4 +16,7 @@ class PhotoImporter {
 class PhotoImporterSettings {
 	@Parameter(names = [ "-i", "-input" ], description = "Input directory to scan")
 	String inputDirectory
+
+    @Parameter(names = [ "-o", "-output" ], description = "Output directory")
+    String outputDirectory
 }
