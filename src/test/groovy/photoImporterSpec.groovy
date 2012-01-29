@@ -7,14 +7,20 @@ class PhotoImporterTest extends Specification {
   	def settings = photoImporter.parseSettingsFromCommandLine(["-i","photos/"]);
 
   	expect:
-  		settings.inputDirectory == "photos/"
+      settings.inputDirectory == "photos/"
+  }
+
+
+  def "Reads output directory from -o parameter"() {
+    def settings = photoImporter.parseSettingsFromCommandLine(["-o","output/"]);
+
+    expect:
+      settings.outputDirectory == "output/"
   }
 }
 
 class Pending extends Specification {
 
-  def "Reads output directory from -o parameter"() {
-  }
 
   def "Scans for every rw2 files recursively in the input directory"() {
   }
