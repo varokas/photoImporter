@@ -1,5 +1,3 @@
-package com.varokas.tools.photoimporter
-
 import com.beust.jcommander.Parameter
 
 class PhotoImporter {

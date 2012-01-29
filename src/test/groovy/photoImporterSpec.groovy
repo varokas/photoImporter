@@ -1,5 +1,3 @@
-package com.varokas.tools.photoimporter
-
 import spock.lang.*
 
 class PhotoImporterTest extends Specification {
