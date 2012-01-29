@@ -21,14 +21,15 @@ class PhotoImporterParametersTest extends Specification {
 
 class PhotoImporterScannerTest extends Specification {
   private final def testDir = "out/testInput"
+  private final def testDirectory = new File(testDir)
+  def photoImporter = new PhotoImporter()
 
-  def before() {
-    testDirectory = new File(testDir)
-    testDirectory.mkdir()
+  def setup() {
+    testDirectory.mkdirs()
   }
 
-  def after() {
-      testDirectory?.deleteDir();
+  def cleanup() {
+    testDirectory?.deleteDir()
   }
 
   private def withFileInDirectoryAndFilename(dir, fileName) {
@@ -46,10 +47,10 @@ class PhotoImporterScannerTest extends Specification {
     withFileInDirectoryAndFilename("dirA","fileOne.rw2")
     withFileInDirectoryAndFilename("dirA","fileTwo.rw2")
 
-    when:
-        true == true
-    then:
-        true == true
+    def list = photoImporter.getFilesToProcess(testDir)
+
+    expect:
+        list.size() == 2
   }
 }
 

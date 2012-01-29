@@ -3,14 +3,19 @@ import com.beust.jcommander.JCommander
 
 class PhotoImporter {
 	def main(args) {
-		settings = parseSettingsFromCommandLine(args)
-	}
+		def settings = parseSettingsFromCommandLine(args)
+	    def files = getFilesToProcess(settings.inputDirectory)
+    }
 
 	def parseSettingsFromCommandLine(args) {
         def settings = new PhotoImporterSettings()
         new JCommander(settings, args as String[]);
         return settings
 	}
+
+    def getFilesToProcess(inputDirectory) {
+       return []
+    }
 }
 
 class PhotoImporterSettings {
