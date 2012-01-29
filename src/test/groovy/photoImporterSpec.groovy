@@ -54,15 +54,31 @@ class PhotoImporterScannerTest extends Specification {
       list.contains(new File("${testDir}/dirA/fileOne.rw2"))
       list.contains(new File("${testDir}/dirA/fileTwo.rw2"))
   }
+
+  def "Scans for every rw2 files recursively in the input directory"() {
+      withFileInDirectoryAndFilename("dirA","fileOne.rw2")
+      withFileInDirectoryAndFilename("dirA/innerDirA","fileTwo.rw2")
+
+      def list = photoImporter.getFilesToProcess(testDir)
+
+      expect:
+      list.size() == 2
+      list.contains(new File("${testDir}/dirA/fileOne.rw2"))
+      list.contains(new File("${testDir}/dirA/innerDirA/fileTwo.rw2"))
+  }
+
+  def "Ignores other extensions that is not rw2"() {
+      withFileInDirectoryAndFilename("dirA","fileOne.jpg")
+
+      def list = photoImporter.getFilesToProcess(testDir)
+
+      expect:
+      list.size() == 0
+  }
+
 }
 
 class Pending extends Specification {
-  def "Scans for every rw2 files recursively in the input directory"() {
-  }
-
-  def "Ignores other extensions besides rw2"() {
-
-  }
 
   def "Creates a year YYYY directory in the destination if we have a photo"() {
   }
