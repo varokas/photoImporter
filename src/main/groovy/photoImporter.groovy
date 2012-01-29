@@ -1,5 +1,6 @@
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.JCommander
+import org.apache.commons.io.FileUtils
 
 class PhotoImporter {
 	def main(args) {
@@ -14,7 +15,7 @@ class PhotoImporter {
 	}
 
     def getFilesToProcess(inputDirectory) {
-       return []
+        return FileUtils.listFiles(new File(inputDirectory), ["rw2"] as String[], true)
     }
 }
 

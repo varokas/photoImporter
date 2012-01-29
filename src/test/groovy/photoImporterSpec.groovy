@@ -51,8 +51,8 @@ class PhotoImporterScannerTest extends Specification {
 
     expect:
       list.size() == 2
-      list.contains("${testDir}/dirA/fileOne.rw2")
-      list.contains("${testDir}/dirA/fileTwo.rw2")
+      list.contains(new File("${testDir}/dirA/fileOne.rw2"))
+      list.contains(new File("${testDir}/dirA/fileTwo.rw2"))
   }
 }
 
