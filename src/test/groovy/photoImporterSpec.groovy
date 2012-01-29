@@ -75,13 +75,40 @@ class PhotoImporterScannerTest extends Specification {
       expect:
       list.size() == 0
   }
+}
 
+class FileCopyTest extends  Specification {
+    private final def testDir = "out/testOutput"
+    private final def testDirectory = new File(testDir)
+    private final def filename = "file-20120128.RW2"
+    def photoImporter = new PhotoImporter()
+
+    def setup() {
+        testDirectory.mkdirs()
+    }
+
+    def cleanup() {
+        testDirectory?.deleteDir()
+    }
+
+    def "Creates a year YYYY directory in the destination if we have a photo"() {
+        File file = new File("test/resources/images/${filename}")
+        File outDir = new File(testDir)
+        
+        photoImporter.copyFileToOutputDir(file, outDir)
+
+        def f = new File("${testDir}/2011")
+        expect:
+            f.exists() == true
+            f.isDirectory() == true
+    }
 }
 
 class Pending extends Specification {
-
-  def "Creates a year YYYY directory in the destination if we have a photo"() {
+  def "Creates output dir if it does not already exists"() {
   }
+
+
   def "Creates a day YYYY/MM/DD directory inside year directory for a photo"() {
   }
 

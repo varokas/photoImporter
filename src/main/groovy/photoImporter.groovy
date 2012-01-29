@@ -6,6 +6,7 @@ class PhotoImporter {
 	def main(args) {
 		def settings = parseSettingsFromCommandLine(args)
 	    def files = getFilesToProcess(settings.inputDirectory)
+        files.each( { f -> copyFileToOutputDir(f, new File(settings.outputDirectory)) })
     }
 
 	def parseSettingsFromCommandLine(args) {
@@ -16,6 +17,10 @@ class PhotoImporter {
 
     def getFilesToProcess(inputDirectory) {
         return FileUtils.listFiles(new File(inputDirectory), ["rw2"] as String[], true)
+    }
+
+    def copyFileToOutputDir(File file, File directory) {
+
     }
 }
 
